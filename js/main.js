@@ -1,18 +1,20 @@
+const diccionario = {
+    'Derrha': 'tssyfruQDtIAqHFn6_PYZE9T59tAJuKC84O0CJSDjonvZ43ICxVGobGBtQ',
+    'Juan': 'x5ArhdY1Loa-0O7sNsrcVFXF-xHhN8x1-VRrdyETe8BlOF1gGsQDa7I_-A',
+    'Shalom': '_NGH7E0CdC4huOMRPXf-AXoSQG__Qtqskc8jks9y-C2yEYX1YwglqvybYA',
+    'Mora': '6w8j7Te17VKixI5OqG_JFWvRdzHgvY9FpAiXIRw8sUvbjnFHrMv6nw_2UQ',
+    'Felipa': 'dDAliuV1ZUhoNdMnjOl9xsEtWxUfTPLmnWf72wAuoKol1dysYWp-kT3_uw',
+    'Flor': 'FVOuJVyxlRRrgDLzVVMIe2pDXJHsWJyvbX7iFZbupaWEZN3rzFEv9wozNw',
+    'Salem': 'oMG97YNMvOl8Rh9jMDhCMhfW29V2mRdn3gA7_jAwA95-CtTkqzTfVoCKXQ',
+    'Machi': 'uNtt3NF3QYHBgM0P9-IeKMjtxR7_qfbLjahyRLFTTfhUI2SkvWUYKKqTPw',
+};
+
+const URLApi = 'https://tft-api.op.gg/api/v1/na/summoners/';
+
+
 async function fetchData() {
     const loader = document.getElementById('loader');
     loader.classList.remove('hidden'); // Mostrar el loader
-
-    const URLApi = 'https://tft-api.op.gg/api/v1/na/summoners/';
-    const diccionario = {
-        'Derrha': 'tssyfruQDtIAqHFn6_PYZE9T59tAJuKC84O0CJSDjonvZ43ICxVGobGBtQ',
-        'Juan': 'x5ArhdY1Loa-0O7sNsrcVFXF-xHhN8x1-VRrdyETe8BlOF1gGsQDa7I_-A',
-        'Shalom': '_NGH7E0CdC4huOMRPXf-AXoSQG__Qtqskc8jks9y-C2yEYX1YwglqvybYA',
-        'Mora': '6w8j7Te17VKixI5OqG_JFWvRdzHgvY9FpAiXIRw8sUvbjnFHrMv6nw_2UQ',
-        'Felipa': 'dDAliuV1ZUhoNdMnjOl9xsEtWxUfTPLmnWf72wAuoKol1dysYWp-kT3_uw',
-        'Flor': 'FVOuJVyxlRRrgDLzVVMIe2pDXJHsWJyvbX7iFZbupaWEZN3rzFEv9wozNw',
-        'Salem': 'oMG97YNMvOl8Rh9jMDhCMhfW29V2mRdn3gA7_jAwA95-CtTkqzTfVoCKXQ',
-        'Machi': 'uNtt3NF3QYHBgM0P9-IeKMjtxR7_qfbLjahyRLFTTfhUI2SkvWUYKKqTPw',
-    };
 
     const fetchedData = {};
 
@@ -27,6 +29,25 @@ async function fetchData() {
     return fetchedData;
 }
 
+async function renewProfiles() {
+    for (const summonerName in diccionario) {
+        let summonerId = diccionario[summonerName];
+        console.log(`${URLApi}${summonerId}/renew`);
+        // Make a POST to api to renew the profile
+        
+        const response = await fetch(`${URLApi}${summonerId}/renew`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        console.log(response);
+        const data = await response.json();
+        console.log(response);
+        return
+    }
+}
 async function buildTable(data) {
     let table = document.getElementById('leaderBoard');
     let winStreak = '🔥';
@@ -64,8 +85,16 @@ async function buildTable(data) {
 }
 
 async function main() {
+    renewProfiles();
+    // Renew profiles every 5 minutes
+    setInterval(renewProfiles, 300000);
     const data = await fetchData();
     buildTable(data);
+    // Refresh data every 5 minutes
+    setInterval(async () => {
+        const data = await fetchData();
+        buildTable(data);
+    }, 300000);
 }
 
 main();
