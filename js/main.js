@@ -4,7 +4,7 @@ const diccionario = {
     'Shalom': '_NGH7E0CdC4huOMRPXf-AXoSQG__Qtqskc8jks9y-C2yEYX1YwglqvybYA',
     'Mora': '6w8j7Te17VKixI5OqG_JFWvRdzHgvY9FpAiXIRw8sUvbjnFHrMv6nw_2UQ',
     'Felipa': 'dDAliuV1ZUhoNdMnjOl9xsEtWxUfTPLmnWf72wAuoKol1dysYWp-kT3_uw',
-    'Flor': 'FVOuJVyxlRRrgDLzVVMIe2pDXJHsWJyvbX7iFZbupaWEZN3rzFEv9wozNw',
+    //'Flor': 'FVOuJVyxlRRrgDLzVVMIe2pDXJHsWJyvbX7iFZbupaWEZN3rzFEv9wozNw',
     'Salem': 'oMG97YNMvOl8Rh9jMDhCMhfW29V2mRdn3gA7_jAwA95-CtTkqzTfVoCKXQ',
     'Machi': 'uNtt3NF3QYHBgM0P9-IeKMjtxR7_qfbLjahyRLFTTfhUI2SkvWUYKKqTPw',
 };
@@ -74,7 +74,7 @@ async function buildTable(data) {
                     ${rank ? (rank.tier || 'Unranked') + ' ' + (rank.rank || '') : 'Unranked'} 
                 </td>
                 <td class="px-6 py-4">
-                    ${rank ? (rank.wins || 0) + ' ' + (rank.hotStreak ? winStreak : loseStreak) : ''}
+                   ${rank.wins + '/' + rank.losses} 
                 </td>
             </tr>`;
 
